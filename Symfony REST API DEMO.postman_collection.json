@@ -1,0 +1,392 @@
+{
+	"info": {
+		"_postman_id": "dcc4c2dd-cfff-4204-a74d-24e6120e13cb",
+		"name": "Symfony REST API DEMO",
+		"description": "This demo test for symfony rest API with JWT auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "69cd243f-e2ee-430a-a2f4-fd02241f410c",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"www\",\n\t\"password\":\"dk12345\",\n\t\"email\":\"dk@www.com\",\n\t\"author_pseudonym\": \"www\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"register"
+					]
+				},
+				"description": "This request used to register User (Author) in the system."
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "75902ec3-a6c5-4c0b-b7c6-b6010ba0060f",
+						"exec": [
+							"const response = pm.response.json();",
+							"pm.environment.set(\"jwt_token\", response.token);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\":\"www\",\n\t\"password\":\"dk12345\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/api/login_check",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login_check"
+					]
+				},
+				"description": "This request used to login user and get the JWT token access"
+			},
+			"response": []
+		},
+		{
+			"name": "Get List of Books",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d07949e0-b1ed-49a3-a750-1db1d69fa359",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8000/api/books",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"books"
+					]
+				},
+				"description": "This API used for get list of the Books "
+			},
+			"response": []
+		},
+		{
+			"name": "Add Book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cd408640-ad14-4113-9078-732bd03228ba",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Symphony 1\",\n\t\"description\": \"this is books of symphony\",\n\t\"price\": \"100\",\n\t\"image\": \"avtag.jpg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/api/books",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Books by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "89ba1baa-4e94-45e4-b8dc-46c42476f9c4",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/api/books/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"books",
+						"1"
+					]
+				},
+				"description": "This API used for get Book by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Book by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8d5d8c1e-013d-4c84-b769-82d1ced98526",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Symphony 01\",\n\t\"description\": \"this is books of symphony\",\n\t\"price\": \"100\",\n\t\"image\": \"avtag.jpg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/api/books/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"books",
+						"1"
+					]
+				},
+				"description": "This API used for updatee books by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Book by ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fd09f811-0230-4ec1-9fde-1d25ff04f25c",
+						"exec": [
+							"pm.sendRequest(\"https://postman-echo.com/get\", function (err, response) {",
+							"    console.log(response.json());",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"Symphony\",\n\t\"description\": \"this is books of symphony\",\n\t\"price\": \"100\",\n\t\"image\": \"avtag.jpg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8000/api/books/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"books",
+						"1"
+					]
+				},
+				"description": "This API used for delete Book by ID"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1ODk4MzQ3NTksImV4cCI6MTU4OTgzODM1OSwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoidG9tbXkifQ.zNPNF-B0GNPDV4gwvGb1qMyvDMtmhLfVnbjKfJxJ4jG3Ko5qm2l3Y21u2vd-XJV6Vo0hVdvIOh6InRQ7vAo5FbtGevQSo5SH7_Zy8KXN-HeeLk8AHiqfhQkK7-jM-y-aFcIbD4qjXX8ZqDJJbCz9AW-jJnfmbp5wQwFrpb8IN7-PJy8FQSOIt54c95RxjAeF4o96fwFraNc38ILaUqB65A0ZKpOa-jLa1_cLnDn9tpVQAov2PtO95n35NZQ0THQgq2rKtJVTXD5Lj8v8jyo9XL8oPhd5fpOdhtxJqv4oE6nOo7ZkvyJenbo9jp9ZEPaZbUbWsymveDhJ909OFDFBuTGJIhMVpdJGixFptazJyB_rLIIlCtTWwNjXATYbnoLC30keXKoMH2k00i1bbdvJZ2pAmcJYgsmmeM3Gwq5qpE71QRtZFuQlOz_z2DKV46yNKBgOVVcEuLuI_UZKw5uu2R6CMpiVzT2dJ5lWbKdfHS17h56SMl5CU_7lhApo8SjaogGt8a9fUP1rCSHSAjJsed2JY7A7ndlW-llZOG_xI1Vr2rUNYdBNi9unkKUJOTyeSw_pE4w3G-5S52b9R7T0Q-eApsqohYb337GiCiGBqAeN5jS--6Zxl8r7tkLhtbvUSyFJwxDS_AHkPc6QNth7Tz-Z5x7atISeKu9ZIezvi0E",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a970d1bd-8109-4218-8208-98d640d0263a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "9dfd059e-e90d-4de6-a1a0-1620e2f06b11",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
