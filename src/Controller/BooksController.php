@@ -69,7 +69,7 @@
     $post->setDescription($request->get('description'));
     $post->setPrice($request->get('price'));
     $post->setImage($request->get('image'));
-
+    $post->setAuthorId($userId);
     $entityManager->persist($post);
     $entityManager->flush();
 
